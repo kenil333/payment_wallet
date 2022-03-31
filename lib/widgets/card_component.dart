@@ -7,9 +7,10 @@ import 'package:tensopay_wallet_prototype/utils/api_helper.dart';
 
 class CardComponent extends StatelessWidget {
   final TensoAccount? tensoAccount;
-  double? width;
-
-  CardComponent({Key? key, required this.tensoAccount, this.width = 300})
+  final Size size;
+  String profilename;
+  final bool islast;
+  CardComponent({Key? key, required this.tensoAccount, required this.size, this.profilename = "",required this.islast})
       : super(key: key);
 
   @override
@@ -17,38 +18,64 @@ class CardComponent extends StatelessWidget {
     DateFormat dateFormat = DateFormat('MM/yyyy');
     String formattedDate = dateFormat.format(tensoAccount!.validTill);
     return Container(
-      width: width,
-      padding: EdgeInsets.only(left: 16, right: 16, bottom: 30, top: 8),
-      decoration: boxDecorationRoundedWithShadow(
-        30,
-        backgroundColor: Color(tensoAccount!.colour).withOpacity(1.0),
-        blurRadius: 10.0,
-        spreadRadius: 4.0,
-        shadowColor: Color(tensoAccount!.colour).withAlpha(50),
+      // height: size.width * 0.52,
+      width: size.width * 0.85,
+      // margin: const EdgeInsets.all(10),
+      margin: EdgeInsets.only(left: size.width * 0.05, right: islast ? size.width * 0.05 : 0, bottom: size.width * 0.05),
+      alignment: Alignment.topCenter,
+      padding: const EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+        color: (tensoAccount!.bankName == "NAB")
+            ? const Color(0xFFB5E3B8)
+            : (tensoAccount!.bankName == "NatWest")
+                 ? const Color(0xFFFFCB66)
+                 : (tensoAccount!.bankName == "ITAU")
+                       ? const Color(0xFFEDB6E4)
+                       : const Color(0xFF789AFF),
+          borderRadius: BorderRadius.circular(20),
+          // boxShadow: [
+          //   BoxShadow(
+          //     offset: const Offset(0, 8),
+          //     color: Colors.green.shade200,
+          //     spreadRadius: 8,
+          //     blurRadius: 1,
+          //   ),
+          // ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Align(
-              alignment: Alignment.topRight,
-              child: Text('${tensoAccount!.bankName}',
-                  style: secondaryTextStyle(color: Colors.white60))),
-          Text('Balance', style: secondaryTextStyle(color: Colors.white60)),
-          8.height,
-          Text( //'${tensoAccount!.currency}' +' '+'${tensoAccount!.balance}',
-            getCurrencyAmount(context, tensoAccount!.currency, tensoAccount!.balance),
-              style: boldTextStyle(color: Colors.white, size: 18)),
-          30.height,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('${tensoAccount!.cardNumber}',
-                  style: primaryTextStyle(color: Colors.white70)),
-              Text('${formattedDate}',
-                  style: primaryTextStyle(color: Colors.white70)),
-            ],
-          ),
-        ],
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+        margin: const EdgeInsets.all(2.5),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20)
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Align(
+                alignment: Alignment.topRight,
+                child: Text(tensoAccount!.bankName,
+                    style: secondaryTextStyle(color: Colors.black54, size: 15))),
+            Text('Balance', style: secondaryTextStyle(color: Colors.black54, size: 15),),
+            SizedBox(height: size.width * 0.03),
+            Text( //'${tensoAccount!.currency}' +' '+'${tensoAccount!.balance}',
+              getCurrencyAmount(context, tensoAccount!.currency, tensoAccount!.balance),
+                style: boldTextStyle(color: Colors.black, size: 20)),
+            SizedBox(height: size.width * 0.09),
+            Text(profilename, style: primaryTextStyle(color: Colors.black87, size: 15)),
+            SizedBox(height: size.width * 0.03),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(tensoAccount!.cardNumber,
+                    style: primaryTextStyle(color: Colors.black87, size: 15)),
+                Text(formattedDate,
+                    style: primaryTextStyle(color: Colors.black87, size: 15)),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

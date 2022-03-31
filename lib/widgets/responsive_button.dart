@@ -26,8 +26,8 @@ class AppResponsiveButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: isResponsive!?MainAxisAlignment.spaceBetween:MainAxisAlignment.center,
           children: [
-            isResponsive!?Container(margin: const EdgeInsets.only(left:20),child: AppText(text: text, colour: textColour,)):Container(),
-            Image.asset('assets/images/button-one.png', fit: BoxFit.cover,),
+            isResponsive!?Container(margin: const EdgeInsets.only(left:20),child: AppText(text: text, colour: Colors.white,)):Container(),
+            Container(margin: const EdgeInsets.only(right: 15),child: Image.asset('assets/images/arrow.png', height: 22,width: 22,color: Colors.white,)),
           ],
         ),
       ),

@@ -20,6 +20,10 @@ class AppCubit extends Cubit<CubitState>{
     emit(MainScreenState(index: index));
   }
 
+  void gotoProfilePage(int index) {
+    emit(ProfileScreenState(index: index));
+  }
+
   void goToCardDetailPage(TensoAccount mainAccount,TensoAccount account, int index){
     emit(CardDetailState(account: account, index: index, mainAccount: mainAccount));
   }

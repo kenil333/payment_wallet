@@ -33,6 +33,14 @@ class MainScreenState extends CubitState{
 
 }
 
+class ProfileScreenState extends CubitState{
+  final int index;
+  ProfileScreenState({required this.index});
+  @override
+  List<Object> get props => [index];
+
+}
+
 class CardDetailState extends CubitState{
   final TensoAccount mainAccount;
   final TensoAccount account;

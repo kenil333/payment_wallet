@@ -57,29 +57,34 @@ class _QrScanState extends State<QrScan> {
   Widget _buildQrView(BuildContext context) {
     return QRView(
       key: qrKey,
+      // onQRViewCreated: qrview,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
-        borderColor: Colors.white,
+        borderColor: Colors.black,
         borderRadius: 10,
         borderLength: 30,
         borderWidth: 10,
         cutOutSize: 300,
+        overlayColor: Colors.grey,
       ),
     );
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
     controller.scannedDataStream.listen((scanData) {
-      controller.pauseCamera();
-      String? result = scanData.code;
-      print('Result from scanner:' + result!);
-      TensoPayment payment = TensoPayment.fromJson(jsonDecode(result!));
-      TensoAccount? mainAccount = findMainAccount();
+      controller.pauseCamera().then((value) {
+        String? result = scanData.code;
+        debugPrint('Result from scanner:' + result!);
+        TensoPayment payment = TensoPayment.fromJson(jsonDecode(result));
+        TensoAccount? mainAccount = findMainAccount();
+        BlocProvider.of<AppCubit>(context)
+            .goToConfirmPayment(mainAccount!, payment);
+      });
+
       //TensoPayment payment = TensoPayment.fromJson(result);
-      BlocProvider.of<AppCubit>(context).goToConfirmPayment(mainAccount!, payment);
+      setState(() {
+        this.controller = controller;
+      });
     });
   }
 
@@ -90,27 +95,30 @@ class _QrScanState extends State<QrScan> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: Stack(
       children: [
         _buildQrView(context),
         Column(
           children: [
-            30.height,
+            SizedBox(
+              height: MediaQuery.of(context).padding.top + 10,
+            ),
             Align(
               alignment: Alignment.topLeft,
               child: Container(
-                padding: EdgeInsets.all(8),
-                margin: EdgeInsets.all(8),
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: size.width * 0.05),
                 decoration: boxDecorationWithRoundedCorners(
                   backgroundColor: Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.grey),
                 ),
-                child: Icon(Icons.arrow_back, color: Colors.white),
+                child: const Icon(Icons.arrow_back, color: Colors.white),
               ).onTap(() {
                 BlocProvider.of<AppCubit>(context).goToMainPage(0);
-              }).paddingOnly(top: 8, right: 16),
+              }),
             ),
             30.height,
             Text('Hold  your Card inside the frame',
@@ -122,10 +130,10 @@ class _QrScanState extends State<QrScan> {
           child: Container(
             height: 60,
             width: 60,
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: boxDecorationWithRoundedCorners(
                 borderRadius: radius(30), backgroundColor: Colors.white),
-            child: Icon(Icons.close, color: AppColours.buttonBackground),
+            child: const Icon(Icons.close, color: Colors.black, size: 30),
           ).onTap(() {
             BlocProvider.of<AppCubit>(context).goToMainPage(0);
           }),

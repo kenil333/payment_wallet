@@ -17,7 +17,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math' as math;
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
@@ -26,18 +25,28 @@ Future<void> main() async {
   Hive.registerAdapter(TensoAccountAdapter());
   var myAccounts = await Hive.openBox<TensoAccount>(tenso_db_box);
 
-
-  if(myAccounts.isEmpty){
+  if (myAccounts.isEmpty) {
     //Enter the 1st data here.
     //Grab the NAB data here..
     //AccountModel nab = new AccountModel(accountId: '123456789', description: 'NAB Isaver', currency: 'AUD', identification: '123456789', accountType: 'Personal', accountSubType: 'Savings', nickname: 'Rose', bankName: 'NAB');
     NABAccountBalance nab = await getNABData();
 
-    TensoAccount nabAccount = new TensoAccount(accountId: nab.accountId, description: 'NAB Isaver',
-        currency: nab.currency, identification: '123456789', accountType: 'Personal',
-        accountSubType: 'Savings', nickname: 'Rose', validTill: DateFormat('MM/yyyy').parse('04/2025'),
-        cardId: '123456789', cardNumber: '123456789', status: 'Valid', balance: double.parse(nab.availableBalance),
-        bankName: 'NAB', colour: (math.Random().nextDouble() * 0xFFFFFF).toInt());
+    TensoAccount nabAccount = TensoAccount(
+      accountId: nab.accountId,
+      description: 'NAB Isaver',
+      currency: nab.currency,
+      identification: '123456789',
+      accountType: 'Personal',
+      accountSubType: 'Savings',
+      nickname: 'Rose',
+      validTill: DateFormat('MM/yyyy').parse('04/2025'),
+      cardId: '123456789',
+      cardNumber: '123456789',
+      status: 'Valid',
+      balance: double.parse(nab.availableBalance),
+      bankName: 'NAB',
+      colour: (math.Random().nextDouble() * 0xFFFFFF).toInt(),
+    );
     myAccounts.add(nabAccount);
   }
 
@@ -50,15 +59,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title:'TensoPay Wallet',
-      //home: SplashScreen(),
-      //home: MainScreen(),
-      //home:CardsPage(),
-      home: BlocProvider<AppCubit>(
-        create: (context) => AppCubit(),
-        child:AppCubitLogics(),
-      )
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'TensoPay Wallet',
+        //home: SplashScreen(),
+        //home: MainScreen(),
+        //home:CardsPage(),
+        home: BlocProvider<AppCubit>(
+          create: (context) => AppCubit(),
+          child: AppCubitLogics(),
+        ));
   }
 }

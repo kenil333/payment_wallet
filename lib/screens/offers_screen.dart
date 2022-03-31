@@ -17,41 +17,54 @@ class OffersScreen extends StatefulWidget {
   _OffersScreenState createState() => _OffersScreenState();
 }
 
-class _OffersScreenState extends State<OffersScreen> with TickerProviderStateMixin{
+class _OffersScreenState extends State<OffersScreen>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     TabController _tabController = TabController(length: 3, vsync: this);
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            AppLargeText(text: 'Discover'),
-            SizedBox(height: 20,),
-            //Tab bars
-            Container(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: TabBar(
-                  labelPadding: const EdgeInsets.only(left: 20, right: 20),
-                  indicatorSize: TabBarIndicatorSize.label,
-                  indicator: CircleTabIndicator(
-                      colour: AppColours.mainColour, radius: 4.0),
-                  controller: _tabController,
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Colors.grey,
-                  isScrollable: true,
-                  tabs: [
-                    Tab(text: 'Places'),
-                    Tab(text: 'Experiences'),
-                    Tab(text: 'Offers')
-                  ],
-                ),
-              ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).padding.top + 25,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: size.width * 0.05),
+            child: AppLargeText(
+              text: 'Discover',
+              colour: Colors.black87.withOpacity(0.7),
+              size: size.width * 0.07,
+              weight: FontWeight.w600,
             ),
-            Container(
-              padding: const EdgeInsets.only(left: 20),
-              height: MediaQuery.of(context).size.height - 280,
-              width: double.maxFinite,
+          ),
+          SizedBox(height: size.width * 0.005),
+          //Tab bars
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TabBar(
+              labelPadding: EdgeInsets.only(left: size.width * 0.05),
+              indicatorSize: TabBarIndicatorSize.label,
+              indicator: const CircleTabIndicator(
+                  colour: AppColours.buttoncolor, radius: 4.0),
+              controller: _tabController,
+              labelColor: AppColours.buttoncolor,
+              unselectedLabelColor: Colors.black54,
+              isScrollable: true,
+              tabs: const [
+                Tab(text: 'Places'),
+                Tab(text: 'Experiences'),
+                Tab(text: 'Offers')
+              ],
+            ),
+          ),
+          Expanded(
+            child: Container(
+              // height: size.height * 0.75,
+              width: size.width,
+              alignment: Alignment.center,
+              // padding: EdgeInsets.symmetric(horizontal: size.width * 0.05),
               child: TabBarView(
                 controller: _tabController,
                 children: [
@@ -65,7 +78,12 @@ class _OffersScreenState extends State<OffersScreen> with TickerProviderStateMix
                             BlocProvider.of<AppCubit>(context)
                                 .goToOfferDetail(places[index], index, true);
                           },
-                          child: GenericOfferContainer(offer: places[index]));
+                          child: GenericOfferContainer(
+                            offer: places[index],
+                            size: size,
+                            index: index,
+                            length: places.length,
+                          ));
                     },
                   ),
                   //Experiences
@@ -78,7 +96,12 @@ class _OffersScreenState extends State<OffersScreen> with TickerProviderStateMix
                             BlocProvider.of<AppCubit>(context)
                                 .goToOfferDetail(experiences[index], index, true);
                           },
-                          child: GenericOfferContainer(offer: experiences[index]));
+                          child: GenericOfferContainer(
+                            offer: experiences[index],
+                            size: size,
+                            index: index,
+                            length: experiences.length,
+                          ));
                     },
                   ),
                   //Offers
@@ -87,21 +110,29 @@ class _OffersScreenState extends State<OffersScreen> with TickerProviderStateMix
                     itemCount: shopping.length,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
-                          onTap: () {
-                            BlocProvider.of<AppCubit>(context)
-                                .goToShoppingOfferDetail(shopping[index], index, true);
-                          },
-                          child: GenericOfferContainer(isOffer: false,
-                            shoppingOffer: shopping[index],
-                          ));
+                        onTap: () {
+                          BlocProvider.of<AppCubit>(context)
+                              .goToShoppingOfferDetail(
+                                  shopping[index], index, true);
+                        },
+                        child: GenericOfferContainer(
+                          isOffer: false,
+                          shoppingOffer: shopping[index],
+                          size: size,
+                          index: index,
+                          length: shopping.length,
+                        ),
+                      );
                     },
                   ),
                 ],
               ),
-            )
-          ],
-        ),
-
+            ),
+          ),
+          SizedBox(
+            height: size.width * 0.1,
+          )
+        ],
       ),
     );
   }

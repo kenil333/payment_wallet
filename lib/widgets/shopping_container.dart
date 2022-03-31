@@ -6,27 +6,47 @@ import 'package:tensopay_wallet_prototype/widgets/tenso_text.dart';
 
 class ShoppingContainer extends StatelessWidget {
   final ShoppingOffer shoppingOffer;
-  const ShoppingContainer({Key? key, required this.shoppingOffer}) : super(key: key);
+  final Size size;
+  final bool islast;
+  const ShoppingContainer({Key? key, required this.shoppingOffer, required this.size, required this.islast}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(right: 20, top: 5),
-      height: 300,
-      width: 200,
+      margin: EdgeInsets.only(left: size.width * 0.05, right: islast ? size.width * 0.05 : 0, bottom: size.width * 0.05, top: size.width * 0.02),
+      height: size.width * 0.6,
+      width: size.width * 0.65,
       decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          color: Colors.white,
-          image: DecorationImage(
-              fit: BoxFit.contain,
-              image: AssetImage(shoppingOffer.imgLocation)),
+          color: const Color(0xffE6EFF2),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(2, 2),
+              color: Colors.grey.withOpacity(0.2),
+              blurRadius: 5,
+              spreadRadius: 2,
+            )
+          ],
           borderRadius: BorderRadius.circular(10)),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          //Container(margin: const EdgeInsets.only(top:20),child: AppText(text: shoppingOffer.title,colour: Colors.black,)),
-          //AppText(text:shoppingOffer.price, colour: Colors.black,),
-          AppText(text: shoppingOffer.description)
+          Expanded(
+            child: Container(
+              alignment: Alignment.center,
+              // padding: EdgeInsets.symmetric(horizontal: size.width * 0.025),
+              decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  color: Colors.white,
+                  image: DecorationImage(
+                      fit: BoxFit.contain,
+                      image: AssetImage(shoppingOffer.imgLocation)),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(10))),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: size.width * 0.02),
+            child: AppText(text:shoppingOffer.description, colour: Colors.black54,),
+          )
         ],
       ),
     );

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:tensopay_wallet_prototype/cubit/app_cubit_states.dart';
 import 'package:tensopay_wallet_prototype/cubit/app_cubits.dart';
+import 'package:tensopay_wallet_prototype/data/spinkit/spinkit.dart';
 import 'package:tensopay_wallet_prototype/models/account_creation.dart';
 import 'package:tensopay_wallet_prototype/models/tenso_bank_account.dart';
 import 'package:tensopay_wallet_prototype/utils/api_helper.dart';
@@ -28,60 +29,95 @@ class _CreateCardPageState extends State<CreateCardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-                margin: const EdgeInsets.only(top: 70),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          BlocProvider.of<AppCubit>(context).goToMainPage(0);
-                        },
-                        icon: Icon(Icons.menu)),
-                    Container(
-                        margin: const EdgeInsets.only(right: 20),
-                        child: BlocBuilder<AppCubit, CubitState>(
-                          builder: (context, state) {
-                            if (state is CreateCardState) {
-                              return AppText(
-                                  text: 'Create a card',
-                                  colour: Colors.black54.withOpacity(0.8));
-                            } else {
-                              return Container();
-                            }
-                          },
-                        )),
-                  ],
-                )),
-            SizedBox(height: 20),
-            //Drop down menu
-            Container(
-              alignment: Alignment.center,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).padding.top + 25,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppLargeText(text: 'Please select a bank:'),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: Colors.lightBlue,
-                      //background color of dropdown button
-                      border: Border.all(color: Colors.black38, width: 3),
-                      //border of dropdown button
-                      borderRadius: BorderRadius.circular(20),
+                  GestureDetector(
+                    onTap: () {
+                      BlocProvider.of<AppCubit>(context).goToMainPage(0);
+                    },
+                    child: Container(
+                      height: size.width * 0.1,
+                      width: size.width * 0.1,
+                      margin: EdgeInsets.only(left: size.width * 0.05),
+                      decoration: BoxDecoration(
+                        color: AppColours.buttoncolor,
+                        borderRadius: BorderRadius.circular(9),
+                        border: Border.all(
+                            width: 0.5, color: AppColours.buttoncolor),
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back_outlined,
+                        size: 20,
+                        color: Colors.white,
+                      ),
                     ),
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 30, right: 30),
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(right: size.width * 0.05),
+                      child: BlocBuilder<AppCubit, CubitState>(
+                        builder: (context, state) {
+                          if (state is CreateCardState) {
+                            return AppText(
+                                text: 'Create a card',
+                                colour: Colors.black54.withOpacity(0.8));
+                          } else {
+                            return Container();
+                          }
+                        },
+                      )),
+                ],
+              ),
+              SizedBox(
+                height: size.width * 0.05,
+              ),
+              //Drop down menu
+              Container(
+                alignment: Alignment.center,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AppLargeText(
+                      text: 'Please select a bank:',
+                      size: size.width * 0.065,
+                      colour: Colors.black87.withOpacity(0.7),
+                      weight: FontWeight.w600,
+                    ),
+                    SizedBox(
+                      height: size.width * 0.05,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: size.width * 0.1),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            offset: const Offset(2, 2),
+                            color: Colors.grey.shade300,
+                            blurRadius: 8,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      alignment: Alignment.center,
+                      child: DropdownButtonHideUnderline(
                         child: DropdownButton(
+                          isExpanded: true,
                           value: _value,
-                          items: [
+                          items: const [
                             //add items in the dropdown
                             DropdownMenuItem(
                                 child: Text('CIBC'), value: 'cibc'),
@@ -99,72 +135,88 @@ class _CreateCardPageState extends State<CreateCardPage> {
                               //print(_value);
                             });
                           },
-                          icon: Padding(
-                              //Icon at tail, arrow bottom is default icon
-                              padding: EdgeInsets.only(left: 20),
-                              child: Icon(Icons.arrow_circle_down_sharp)),
-                          iconEnabledColor: Colors.white,
+                          icon: const Icon(Icons.keyboard_arrow_down),
+                          iconEnabledColor: Colors.black,
                           //Icon color
                           style: TextStyle(
                               //te
-                              color: Colors.white, //Font color
-                              fontSize: 20 //font size on dropdown button
+                              color: Colors.black, //Font color
+                              fontSize: size.width *
+                                  0.048 //font size on dropdown button
                               ),
-                          dropdownColor:
-                              Colors.redAccent, //dropdown background color
-                        )),
-                  ),
-                ],
+                          dropdownColor: Colors.white,
+                          //dropdown background color
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            selected ? _createSelectedCardText(context, _value) : Container(),
-          ],
-        ),
+              const SizedBox(
+                height: 50,
+              ),
+              selected ? _createSelectedCardText(context, _value, size) : Container(),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
 
-Container _createSelectedCardText(BuildContext context, String bankName) {
+Stack _createSelectedCardText(BuildContext context, String bankName, Size size) {
   String _value = 'CIBC';
   if (bankName == 'natwest') {
     _value = 'NatWest';
   } else if (bankName == 'itau') {
     _value = 'ITAU';
   }
-  return Container(
-    width: double.maxFinite,
-    height: 300,
-    margin: const EdgeInsets.only(left: 20),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        AppText(
+  return Stack(
+    alignment: Alignment.center,
+    // crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Container(
+        padding: const EdgeInsets.symmetric(vertical: 35, horizontal: 20),
+        margin: const EdgeInsets.only(bottom: 22.5, left: 20, right: 20),
+        decoration: BoxDecoration(
+          color: AppColours.buttoncolor,
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(width: 1, color: AppColours.buttoncolor,),
+        ),
+        child: AppText(
           text: 'Tap the + button to create a ' + _value + ' card: ',
+          colour: Colors.white,
+          size: size.width * 0.05,
         ),
-        SizedBox(
-          width: 10,
+      ),
+      Positioned(
+        bottom: 0,
+        child: InkWell(
+          onTap: () {
+            _onCreate(context, bankName, size);
+          },
+          hoverColor: Colors.blueAccent.withOpacity(0.5),
+          child: Container(
+            height: 45,
+            width: 45,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(40),
+              border: Border.all(color: AppColours.buttoncolor, width: 1),
+            ),
+            child: const Icon(
+              Icons.add,
+              color: AppColours.buttoncolor,
+            ),
+          ),
         ),
-        InkWell(
-            onTap: () {
-              _onCreate(context, bankName);
-            },
-            hoverColor: Colors.blueAccent.withOpacity(0.5),
-            child: Container(
-                margin: const EdgeInsets.only(left: 10),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.black,
-                ))),
-      ],
-    ),
+      ),
+    ],
   );
 }
 
-void _onCreate(context, String _bank) async {
+void _onCreate(context, String _bank, Size size) async {
   print('Bank selected' + _bank);
   String apiUrl = '';
   String bankName = '';
@@ -188,18 +240,23 @@ void _onCreate(context, String _bank) async {
       isDismissible: false,
       enableDrag: false,
       context: context,
-      backgroundColor: Colors.grey.withOpacity(0.5),
+      backgroundColor: Colors.white,
       barrierColor: Colors.transparent,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(10),
+        ),
+      ),
       builder: (BuildContext bc) {
         return Container(
           height: MediaQuery.of(context).size.height / 4 + 200,
           color: Colors.white.withOpacity(0.7),
           child: FutureBuilder(
             future: postCreateAccount(apiUrl, 'Rose'),
-            builder: (BuildContext bc,
-                AsyncSnapshot<AccountCreation> snapshot) {
-              if (snapshot!.hasData) {
-                TensoAccount newAccount = new TensoAccount(
+            builder:
+                (BuildContext bc, AsyncSnapshot<AccountCreation> snapshot) {
+              if (snapshot.hasData) {
+                TensoAccount newAccount = TensoAccount(
                     accountId: snapshot.data!.account.accountId,
                     description: snapshot.data!.account.description,
                     currency: snapshot.data!.account.currency,
@@ -218,32 +275,44 @@ void _onCreate(context, String _bank) async {
                 //Open the hive box.
                 var myAccounts = Hive.box<TensoAccount>(tenso_db_box);
                 myAccounts.add(newAccount);
-                return InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                    BlocProvider.of<AppCubit>(context).goToMainPage(0);
-                  },
-                  child: Container(
-                      child: Column(
-                    children: [
-                      Icon(Icons.payment, size: 40,),
-                      AppText(text: 'Account created! '),
-                      AppText(
-                        text: 'done!',
-                      ),
-                    ],
-                  )),
-                );
-              } else {
                 return Column(
                   children: [
-                    AppText(text: 'Creating...'),
-                    SizedBox(height: 50,),
-                    SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator()),
+                    const SizedBox(height: 15),
+                    Image(
+                      image: const AssetImage("assets/images/addcard.png"),
+                      height: size.width * 0.3,
+                      width: size.width * 0.6,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 12),
+                    AppText(
+                        text: 'Account created! ',
+                        colour: Colors.green.shade600,
+                        size: size.width * 0.09,
+                    ),
+                    const SizedBox(height: 15),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        BlocProvider.of<AppCubit>(context).goToMainPage(0);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.only(top: 20),
+                        decoration: BoxDecoration(
+                          color: AppColours.buttoncolor,
+                          borderRadius: BorderRadius.circular(8)
+                        ),
+                        child: const Text("Done", style: TextStyle(fontSize: 16, color: Colors.white),),
+                      ),
+                    ),
                   ],
+                );
+              } else {
+                return SizedBox(
+                  height: size.width * 0.3,
+                  width: size.width * 0.3,
+                  child: spinkit,
                 );
               }
             },

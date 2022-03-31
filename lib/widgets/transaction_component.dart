@@ -9,10 +9,11 @@ import 'package:tensopay_wallet_prototype/widgets/tenso_text.dart';
 
 class TransactionComponent extends StatelessWidget {
   final TensoTransaction? transaction;
+  final Size size;
   double? height;
   double? width;
 
-  TransactionComponent({Key? key, required this.transaction, this.height = 60, this.width = 350,}) : super(key: key);
+  TransactionComponent({Key? key, required this.transaction, this.height = 60, this.width = 350, required this. size}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +21,10 @@ class TransactionComponent extends StatelessWidget {
     return Container(
       height: height,
       width: width,
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.only(bottom: size.width * 0.05),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: AppColours.buttonBackground,
+        borderRadius: BorderRadius.circular(10),
+        color: const Color(0xFFEBF4F8),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

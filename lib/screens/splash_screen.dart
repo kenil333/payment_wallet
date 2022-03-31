@@ -26,6 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: PageView.builder(
           scrollDirection: Axis.vertical,
@@ -40,61 +41,86 @@ class _SplashScreenState extends State<SplashScreen> {
                       image: AssetImage(
                           'assets/images/splash_screen/' + images[index]),
                     )),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.7, left: 20),
-                        alignment: Alignment.center,
-                        child: Row(children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AppLargeText(text: 'Welcome'),
-                              AppText(text: descriptions[index]),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              GestureDetector(
-                                onTap:() {
-                                  BlocProvider.of<AppCubit>(context).goToMainPage(0);
-                                },
-                                child: Container(
-                                  width: 200,
-                                  child: Row(
-                                    children: [
-                                      AppResponsiveButton(
-                                        text: 'continue',
-                                        colour: AppColours.mainColour,
-                                        textColour: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  Container(
+                    margin: EdgeInsets.only(top: size.height * 0.7, left: 20),
+                    alignment: Alignment.center,
+                    child: Row(children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 10),
+                          AppLargeText(
+                              text: 'Welcome',
+                              colour: Colors.white,
+                              weight: FontWeight.w400),
+                          AppText(
+                              text: descriptions[index],
+                              colour: Colors.white.withOpacity(0.8),
+                              weight: FontWeight.w300),
+                          const SizedBox(
+                            height: 20,
                           ),
-                        ]),
-                      ),
-                      Expanded(child: Container()),
-                      Container(
-                        alignment: Alignment(0.0,2.0),
-                        margin: const EdgeInsets.only(top: 100, right: 20),
-                        child: Column(
-                          children: List.generate(images.length, (indexDots) {
-                            return Container(
-                              width: 8,
-                              height: index == indexDots ? 25 : 8,
-                              margin: const EdgeInsets.only(bottom: 3),
+                          GestureDetector(
+                            onTap: () {
+                              BlocProvider.of<AppCubit>(context)
+                                  .goToMainPage(0);
+                            },
+                            child: Container(
+                              width: size.width * 0.4,
+                              height: size.width * 0.12,
+                              padding: const EdgeInsets.symmetric(vertical: 10),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: index == indexDots ? Colors.white: Colors.white.withOpacity(0.5)),
-                            );
-                          }),
-                        ),
-                      )
-                    ]));
+                                color: AppColours.backcolor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(child: Container()),
+                                  Text(
+                                    "Continue",
+                                    style: TextStyle(
+                                      fontSize: size.width * 0.045,
+                                      color: AppColours.buttoncolor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(width: size.width * 0.04),
+                                  const  Image(
+                                    image:  AssetImage(
+                                        "assets/images/arrow.png"),
+                                    color: AppColours.buttoncolor,
+                                  ),
+                                  SizedBox(width: size.width * 0.04),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ]),
+                  ),
+                  Expanded(child: Container()),
+                  Container(
+                    alignment: const Alignment(0.0, 2.0),
+                    margin: const EdgeInsets.only(top: 100, right: 20),
+                    child: Column(
+                      children: List.generate(images.length, (indexDots) {
+                        return Container(
+                          width: 8,
+                          height: index == indexDots ? 25 : 8,
+                          margin: const EdgeInsets.only(bottom: 3),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: index == indexDots
+                                  ? Colors.white
+                                  : Colors.white.withOpacity(0.5)),
+                        );
+                      }),
+                    ),
+                  )
+                ]));
           }),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:tensopay_wallet_prototype/models/bank.dart';
 import 'package:tensopay_wallet_prototype/models/offer.dart';
 import 'package:tensopay_wallet_prototype/models/shopping_offer.dart';
 
@@ -26,4 +27,6 @@ List shopping = [
   ShoppingOffer(title: 'Kogan', imgLocation: 'assets/images/kogan.png', price: '2%', description: '2% cashback'),
   ShoppingOffer(title: 'Pizza Hut', imgLocation: 'assets/images/pizza_hut.png', price: '3.50%', description: 'Up to 3.50% cashback')
 ];
+List<String?> banklist = <String?>[ "assets/images/nab.png", "assets/images/netwest.png", "assets/images/itau.png", "assets/images/cibc.png"];
+// List account
 

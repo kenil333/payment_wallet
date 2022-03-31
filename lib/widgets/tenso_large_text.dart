@@ -5,9 +5,11 @@ class AppLargeText extends StatelessWidget {
   double size;
   final String text;
   final Color colour;
+  FontWeight weight;
+
 
   AppLargeText(
-      {Key? key, this.size = 30, required this.text, this.colour = Colors.black})
+      {Key? key, this.size = 30, required this.text, this.colour = Colors.black87, this.weight = FontWeight.bold})
       : super(key: key);
 
   @override
@@ -17,7 +19,7 @@ class AppLargeText extends StatelessWidget {
       style: TextStyle(
         color: colour,
         fontSize: size,
-        fontWeight: FontWeight.bold
+        fontWeight: weight,
       ),
     );
   }
