@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:tensopay_wallet_prototype/cubit/app_cubit_states.dart';
 import 'package:tensopay_wallet_prototype/models/offer.dart';
 import 'package:tensopay_wallet_prototype/models/shopping_offer.dart';
@@ -34,6 +37,10 @@ class AppCubit extends Cubit<CubitState>{
 
   void goToTopUp(TensoAccount mainAccount, TensoAccount account, int index){
     emit(TopUpState(account: account, index: index, mainAccount: mainAccount));
+  }
+
+  void goToConfirm(TensoAccount mainAccount, TensoAccount account, int index, String amount, String res){
+    emit(ConfirmState(account: account,index: index, mainAccount: mainAccount, amount: amount, res: res));
   }
 
   void goToOfferDetail(Offer offer, int index, bool fromOfferPage){

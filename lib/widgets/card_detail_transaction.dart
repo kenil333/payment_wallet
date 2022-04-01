@@ -73,7 +73,7 @@ class CardDetails extends StatelessWidget {
                       weight: FontWeight.w700,
                       size: 18,
                     ),
-                    const SizedBox(height: 9),
+                    const SizedBox(height: 18),
                   ],
                 ),
               ),

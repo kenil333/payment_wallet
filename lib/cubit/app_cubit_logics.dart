@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tensopay_wallet_prototype/screens/main_screen.dart';
 import 'package:tensopay_wallet_prototype/screens/pages/add_credential_page.dart';
 import 'package:tensopay_wallet_prototype/screens/pages/card_detail_page.dart';
+import 'package:tensopay_wallet_prototype/screens/pages/confirm.dart';
 import 'package:tensopay_wallet_prototype/screens/pages/confirm_payment_page.dart';
 import 'package:tensopay_wallet_prototype/screens/pages/create_card_page.dart';
 import 'package:tensopay_wallet_prototype/screens/pages/edit_profile_page.dart';
@@ -67,8 +68,10 @@ class _AppCubitLogicsState extends State<AppCubitLogics> {
               return CardDetailPage();
             } if(state is CreateCardState){
               return CreateCardPage();
-            } if(state is TopUpState){
+            } if(state is TopUpState) {
               return TopUpPage();
+            } if(state is ConfirmState) {
+              return Confirm();
             } if(state is OfferDetailState){
               return OfferDetailPage();
             } if(state is ShoppingOfferDetailState){

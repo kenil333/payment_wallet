@@ -117,14 +117,32 @@ class _CreateCardPageState extends State<CreateCardPage> {
                         child: DropdownButton(
                           isExpanded: true,
                           value: _value,
-                          items: const [
+                          items: [
                             //add items in the dropdown
                             DropdownMenuItem(
-                                child: Text('CIBC'), value: 'cibc'),
+                                child: Row(
+                                  children: [
+                                    const Text('CIBC'),
+                                    SizedBox(width: size.width * 0.1,),
+                                    Image(image: const AssetImage("assets/images/cibc.png"),height: size.height * 0.035,width: size.width * 0.25,fit: BoxFit.fill,),
+                                  ],
+                                ), value: 'cibc'),
                             DropdownMenuItem(
-                                child: Text('NatWest'), value: 'natwest'),
+                                child: Row(
+                                  children: [
+                                    const Text('NatWest'),
+                                    SizedBox(width: size.width * 0.05,),
+                                    Image(image: const AssetImage("assets/images/netwest.png"),height: size.height * 0.035,width: size.width * 0.25,fit: BoxFit.fill,),
+                                  ],
+                                ), value: 'natwest'),
                             DropdownMenuItem(
-                                child: Text('ITAU'), value: 'itau'),
+                                child: Row(
+                                  children: [
+                                    const Text('ITAU'),
+                                    SizedBox(width: size.width * 0.12,),
+                                    Image(image: const AssetImage("assets/images/itau.png"),height: size.height * 0.035,width: size.width * 0.25,fit: BoxFit.fill,),
+                                  ],
+                                ), value: 'itau'),
                           ],
                           onChanged: (String? value) {
                             //get value when changed

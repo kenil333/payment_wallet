@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:tensopay_wallet_prototype/models/offer.dart';
 import 'package:tensopay_wallet_prototype/models/shopping_offer.dart';
 import 'package:tensopay_wallet_prototype/models/tenso_bank_account.dart';
@@ -63,6 +64,18 @@ class TopUpState extends CubitState{
   final TensoAccount account;
   final int index;
   TopUpState({required this.mainAccount, required this.account, required this.index});
+  @override
+  // TODO: implement props
+  List<Object> get props => [account, index];
+}
+
+class ConfirmState extends CubitState{
+  final TensoAccount mainAccount;
+  final TensoAccount account;
+  final int index;
+  final String amount ;
+  final String res;
+  ConfirmState({required this.mainAccount, required this.account, required this.index, required this.amount, required this.res});
   @override
   // TODO: implement props
   List<Object> get props => [account, index];

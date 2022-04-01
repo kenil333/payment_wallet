@@ -160,7 +160,7 @@ class _CardsScreenState extends State<CardsScreen> {
                                 return AppText(text: 'Error: ${snapshot.error}');
                               } else {
                                 return Container(
-                                  height: size.width * 0.52,
+                                  height: size.width * 0.48,
                                   width: size.width * 0.85,
                                   margin: EdgeInsets.only(left: size.width * 0.05, right: size.width * 0.05, bottom: size.width * 0.05),
                                   decoration: BoxDecoration(

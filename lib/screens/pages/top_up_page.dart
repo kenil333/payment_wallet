@@ -49,748 +49,581 @@ class _TopUpPageState extends State<TopUpPage> {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            BlocBuilder<AppCubit, CubitState>(
-              builder: (context, state) {
-                if (state is TopUpState) {
-                  var bankName = state.account.bankName;
-                  var mainAccount = state.mainAccount;
-                  var account = state.account;
-                  var index = state.index;
-                  balance = state.account.balance;
-                  print(state.account.identification);
-                  return ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: MediaQuery.of(context).size.width,
-                      minHeight: MediaQuery.of(context).size.height,
+      body: BlocBuilder<AppCubit, CubitState>(
+        builder: (context, state) {
+          if (state is TopUpState) {
+            var bankName = state.account.bankName;
+            var mainAccount = state.mainAccount;
+            var account = state.account;
+            var index = state.index;
+            balance = state.account.balance;
+            print(state.account.identification);
+            return ConstrainedBox(
+              constraints: BoxConstraints(
+                minWidth: MediaQuery.of(context).size.width,
+                minHeight: MediaQuery.of(context).size.height,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.top + 15,
                     ),
-                    child: (isloading)
-                        ? const Center(
-                            child: SizedBox(
-                              height: 80,
-                              width: 80,
-                              child: spinkit,
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: size.width * 0.05,
+                          right: size.width * 0.05),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              BlocProvider.of<AppCubit>(context)
+                                  .goToMainPage(0);
+                            },
+                            child: Container(
+                              height: size.width * 0.1,
+                              width: size.width * 0.1,
+                              decoration: BoxDecoration(
+                                color: AppColours.buttoncolor,
+                                borderRadius: BorderRadius.circular(9),
+                                border: Border.all(
+                                    width: 0.5,
+                                    color: AppColours.buttoncolor),
+                              ),
+                              child: const Icon(
+                                Icons.arrow_back_outlined,
+                                size: 20,
+                                color: Colors.white,
+                              ),
                             ),
-                          )
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
+                          ),
+                          AppText(text: 'Top Up', colour: Colors.black)
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.04),
+                    Container(
+                      width: size.width,
+                      height: size.height * 0.075,
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                            width: 1,
+                            color: Colors.black54.withOpacity(0.4)),
+                        color: Colors.white,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 12),
+                            child: Column(
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Enter the Amount:",
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black54),
+                                ),
                                 SizedBox(
-                                  height:
-                                      MediaQuery.of(context).padding.top + 15,
+                                  height: size.height * 0.002,
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(
-                                      left: size.width * 0.05,
-                                      right: size.width * 0.05),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          BlocProvider.of<AppCubit>(context)
-                                              .goToMainPage(0);
-                                        },
-                                        child: Container(
-                                          height: size.width * 0.1,
-                                          width: size.width * 0.1,
-                                          decoration: BoxDecoration(
-                                            color: AppColours.buttoncolor,
-                                            borderRadius:
-                                                BorderRadius.circular(9),
-                                            border: Border.all(
-                                                width: 0.5,
-                                                color: AppColours.buttoncolor),
-                                          ),
-                                          child: const Icon(
-                                            Icons.arrow_back_outlined,
-                                            size: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                      AppText(
-                                          text: 'Top Up', colour: Colors.black)
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 15),
-                                Container(
-                                  width: size.width,
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 10, horizontal: 20),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                        width: 1, color: Colors.black87),
-                                    color: Colors.white,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      // Container(
-                                      //   padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                                      //   child: Column(
-                                      //     children: [
-                                      //       const Text("Enter the Amount:", style: TextStyle(fontSize: 17, color: Colors.black87),),
-                                      //       // TextField(
-                                      //       //   controller: amountController,
-                                      //       //   keyboardType:
-                                      //       //   TextInputType.number,
-                                      //       //   style: const TextStyle(
-                                      //       //       fontSize: 18.0,
-                                      //       //       color: Colors.black),
-                                      //       //   decoration: const InputDecoration(
-                                      //       //       hintText: 'Amount',
-                                      //       //       hintStyle:
-                                      //       //       TextStyle(
-                                      //       //           fontSize: 16,
-                                      //       //           color: Colors
-                                      //       //               .black54),
-                                      //       //       labelStyle:
-                                      //       //       TextStyle(
-                                      //       //           fontSize: 16.0,
-                                      //       //           color: Colors
-                                      //       //               .black54)),
-                                      //       // ),
-                                      //     ],
-                                      //   ),
-                                      // ),
-                                      Container(
-                                        width: size.width * 0.4,
-                                        height: size.height * 0.08,
-                                        // padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-                                        // color: AppColours.buttoncolor.withOpacity(0.8),
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.horizontal(
-                                            right: Radius.circular(8),
-                                          ),
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                                "assets/images/netwest.png"),
-                                            fit: BoxFit.fill,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                //Topping up text
-                                Container(
-                                  margin: const EdgeInsets.only(left: 20),
-                                  child: AppLargeText(
-                                    text: 'Topping up ' + bankName,
-                                    size: 22,
-                                    colour: Colors.black87,
-                                    weight: FontWeight.w600,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                //Card Balance
-                                Container(
-                                  // height: size.width * 0.23,
-                                  width: size.width * 0.9,
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            offset: const Offset(0, 2),
-                                            color: Colors.grey.shade300,
-                                            blurRadius: 3,
-                                            spreadRadius: 2),
-                                      ]),
-                                  margin: const EdgeInsets.only(left: 20),
-                                  child: Container(
-                                      alignment: Alignment.centerLeft,
-                                      padding: const EdgeInsets.only(left: 10),
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 5, horizontal: 10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          AppText(
-                                              text: 'Your Balance:',
-                                              colour: Colors.black,
-                                              size: 17),
-                                          const SizedBox(height: 7),
-                                          AppText(
-                                            text: getCurrencyAmount(
-                                                context,
-                                                state.account.currency,
-                                                state.account.balance),
-                                            colour: Colors.black,
-                                            weight: FontWeight.w600,
-                                            size: 18,
-                                          ),
-                                        ],
-                                      )),
+                                      EdgeInsets.only(bottom: size.width * 0.007),
+                                  width: size.width * 0.45,
+                                  height: size.height * 0.045,
+                                  child: TextField(
+                                    controller: amountController,
+                                    keyboardType: TextInputType.number,
+                                    style: TextStyle(
+                                        fontSize: size.width * 0.045,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Amount',
+                                      hintStyle: TextStyle(
+                                          fontSize: size.width * 0.042,
+                                          color: Colors.black87.withOpacity(0.8)),
+                                    ),
+                                  ),
                                 ),
-                                const SizedBox(
-                                  height: 20,
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: size.width * 0.32,
+                            height: size.height * 0.075,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 8),
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  (mainAccount.bankName == "NAB")
+                                      ? "assets/images/nab.png"
+                                      : (mainAccount.bankName ==
+                                              "NatWest")
+                                          ? "assets/images/netwest.png"
+                                          : (mainAccount.bankName ==
+                                                  "CIBC")
+                                              ? "assets/images/cibc.png"
+                                              : "assets/images/itau.png",
                                 ),
+                                fit: BoxFit.fill,
+                              ),
+                              color: AppColours.buttoncolor,
+                              borderRadius: const BorderRadius.horizontal(
+                                right: Radius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    StreamBuilder<RateData>(
+                        stream: generateRateStream(
+                            state.account.currency),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            Rate rateData = snapshot.data!.rate;
+                            rate = rateData.rate;
+                            //res = _getConversionAmount(rate);
+                            _updateFinalAmount();
+                            return Stack(
+                              children: [
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                   children: [
-                                    //AUD balance
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 20),
-                                      child: Row(
-                                        children: [
-                                          AppText(
-                                            text: 'Available fund: AUD ',
-                                            size: 17,
-                                            colour: Colors.black,
-                                          ),
-                                          AppText(
-                                            text: getCurrencyAmount(
-                                                context,
-                                                mainAccount.currency,
-                                                mainAccount.balance),
-                                            size: 18,
-                                            colour: Colors.black,
-                                            weight: FontWeight.w600,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
                                     Stack(
-                                      alignment: Alignment.center,
                                       children: [
                                         Container(
-                                          height: 80,
-                                          width: size.width * 0.32,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/images/Lightning.gif"),
-                                              fit: BoxFit.cover,
+                                          margin: EdgeInsets.only(left: size.width * 0.1),
+                                          padding: EdgeInsets.only(top: size.height * 0.01),
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              left: BorderSide(
+                                                width: 2, color: Colors.grey.withOpacity(0.4),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Container(
-                                              height: size.width * 0.29,
-                                              width: size.width * 0.3,
-                                              padding: const EdgeInsets.all(5),
-                                              child: Stack(
-                                                alignment: Alignment.topCenter,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
                                                 children: [
-                                                  Container(
-                                                    height: size.width * 0.24,
-                                                    width: size.width * 0.24,
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100),
-                                                      border: Border.all(
-                                                          width: 2,
-                                                          color: AppColours
-                                                              .buttoncolor),
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          mainAccount.bankName,
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  size.height *
-                                                                      0.0255,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        ),
-                                                        Text(
-                                                          "From",
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    0.7),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                  SizedBox(
+                                                    width: size.width * 0.07,
                                                   ),
-                                                  Positioned(
-                                                    bottom: 0,
-                                                    child: Container(
-                                                      height: size.width * 0.08,
-                                                      width: size.width * 0.25,
-                                                      // margin: const EdgeInsets.only(bottom: 10),
-                                                      alignment:
-                                                          Alignment.center,
-                                                      decoration: BoxDecoration(
-                                                        color: AppColours
-                                                            .buttoncolor,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                      ),
-                                                      child: Text(
+                                                  AppText(
+                                                    text: 'Available fund: ',
+                                                    size: size.width * 0.04,
+                                                    colour: Colors.black54,
+                                                  ),
+                                                  AppText(
+                                                    text: getCurrencyAmount(
+                                                        context,
                                                         mainAccount.currency,
-                                                        style: const TextStyle(
-                                                            fontSize: 18,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      ),
-                                                    ),
+                                                        mainAccount.balance),
+                                                    size: size.width * 0.045,
+                                                    colour: AppColours.buttoncolor.withOpacity(0.9),
+                                                    weight: FontWeight.w600,
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                            Container(
-                                              height: size.width * 0.29,
-                                              width: size.width * 0.3,
-                                              padding: const EdgeInsets.all(5),
-                                              child: Stack(
-                                                alignment: Alignment.topCenter,
-                                                children: [
-                                                  Container(
-                                                    height: size.width * 0.24,
-                                                    width: size.width * 0.24,
-                                                    alignment: Alignment.center,
-                                                    padding:
-                                                        const EdgeInsets.all(5),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              100),
-                                                      border: Border.all(
-                                                          width: 2,
-                                                          color: AppColours
-                                                              .buttoncolor),
-                                                    ),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text(
-                                                          account.bankName,
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                                  size.height *
-                                                                      0.0255,
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                        ),
-                                                        Text(
-                                                          "To",
-                                                          style: TextStyle(
-                                                            fontSize: 14,
-                                                            color: Colors.black
-                                                                .withOpacity(
-                                                                    0.7),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Positioned(
-                                                    bottom: 0,
-                                                    child: Container(
-                                                      height: size.width * 0.08,
-                                                      width: size.width * 0.25,
-                                                      // margin: const EdgeInsets.only(bottom: 10),
-                                                      alignment:
-                                                          Alignment.center,
-                                                      decoration: BoxDecoration(
-                                                        color: AppColours
-                                                            .buttoncolor,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                      ),
-                                                      child: Text(
-                                                        account.currency,
-                                                        style: const TextStyle(
-                                                            fontSize: 18,
-                                                            color: Colors.white,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                              SizedBox(height: size.height * 0.009,),
+                                              Container(
+                                                height: 1,
+                                                width: size.width * 0.6,
+                                                color: Colors.grey.withOpacity(0.6),
+                                                margin: EdgeInsets.only(
+                                                    left: size.width * 0.05),
                                               ),
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: size.width * 0.094,
+                                          top: size.width * 0.034,
+                                          child: Container(
+                                            height: 7,
+                                            width: 7,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(40),
+                                              color: Colors.grey.withOpacity(0.8),
                                             ),
-                                          ],
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    //Enter amount
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          vertical: size.width * 0.025,
-                                          horizontal: size.width * 0.05),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                AppText(
-                                                  text: 'Enter the amount: ',
-                                                  colour: Colors.black,
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                TextField(
-                                                  controller: resController,
-                                                  style: const TextStyle(
-                                                      fontSize: 18.0,
-                                                      color: Colors.black),
-                                                  decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          10),
-                                                      borderSide:
-                                                      const BorderSide(
-                                                          color:
-                                                          Colors.black),
-                                                    ),
-                                                    hintText: '0.00',
-                                                    hintStyle: const TextStyle(
-                                                        color: Colors.black54),
-                                                    labelStyle: TextStyle(
-                                                      fontSize: 16.0,
-                                                      color: Colors.black87
-                                                          .withOpacity(0.8),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(left: size.width * 0.1),
+                                          padding: EdgeInsets.symmetric(vertical: size.height * 0.008),
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              left: BorderSide(
+                                                width: 2, color: Colors.grey.withOpacity(0.4),
+                                              ),
                                             ),
                                           ),
-                                          SizedBox(
-                                            width: size.width * 0.05,
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: size.width * 0.07,
+                                              ),
+                                              AppText(
+                                                text: 'Exchange rate: ',
+                                                size: size.width * 0.038,
+                                                colour: Colors.black87.withOpacity(0.4),
+                                              ),
+                                              AppText(
+                                                text: getCurrencyAmount(
+                                                    context,
+                                                    mainAccount.currency,
+                                                    1.00) +
+                                                    ' is ' +
+                                                    getCurrencyAmount(
+                                                        context,
+                                                        state.account.currency,
+                                                        rateData.rate),
+                                                size: size.width * 0.041,
+                                                colour: Colors.black87.withOpacity(0.7),
+                                                weight: FontWeight.w400,
+                                              ),
+                                            ],
                                           ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                AppText(
-                                                    text: 'Final Amount ' +
-                                                        getCurrency(
-                                                            context,
-                                                            state.account
-                                                                .currency),
-                                                    colour: Colors.black87),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                TextField(
-                                                  controller: resController,
-                                                  style: const TextStyle(
-                                                      fontSize: 18.0,
-                                                      color: Colors.black),
-                                                  decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      borderSide:
-                                                          const BorderSide(
-                                                              color:
-                                                                  Colors.black),
-                                                    ),
-                                                    hintText: '0.00',
-                                                    hintStyle: const TextStyle(
-                                                        color: Colors.black54),
-                                                    labelStyle: TextStyle(
-                                                      fontSize: 16.0,
-                                                      color: Colors.black87
-                                                          .withOpacity(0.8),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    //Fees and amount detail
-                                    Container(
-                                      width: size.width * 0.9,
-                                      // height: size.height * 0.26,
-                                      padding:
-                                          const EdgeInsets.only(bottom: 20),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: const Color(0xff50B2FA),
-                                      ),
-                                      child: Container(
-                                        width: size.width * 0.9,
-                                        // height: size.height * 0.26,
-                                        margin: const EdgeInsets.all(2),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          color: Colors.white,
-                                          // color: const Color(0xFFEBF4F8),
                                         ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            StreamBuilder<RateData>(
-                                              stream: generateRateStream(
-                                                  state.account.currency),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  Rate rateData =
-                                                      snapshot.data!.rate;
-                                                  rate = rateData.rate;
-                                                  //res = _getConversionAmount(rate);
-                                                  _updateFinalAmount();
-                                                  return Container(
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 12,
-                                                        horizontal: 18),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        RichText(
-                                                          text: TextSpan(
-                                                            text:
-                                                                'Exchange rate: ',
-                                                            style: TextStyle(
-                                                              fontSize:
-                                                                  size.width *
-                                                                      0.035,
-                                                              color: Colors
-                                                                  .black54,
-                                                            ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text: getCurrencyAmount(
-                                                                        context,
-                                                                        mainAccount
-                                                                            .currency,
-                                                                        1.00) +
-                                                                    ' is ' +
-                                                                    getCurrencyAmount(
-                                                                        context,
-                                                                        state
-                                                                            .account
-                                                                            .currency,
-                                                                        rateData
-                                                                            .rate),
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        size.width *
-                                                                            0.035,
-                                                                    color: Colors
-                                                                        .black),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                            height: 3),
-                                                        RichText(
-                                                          text: TextSpan(
-                                                            text: 'Fees: ',
-                                                            style: TextStyle(
-                                                              fontSize:
-                                                                  size.width *
-                                                                      0.035,
-                                                              color: Colors
-                                                                  .black54,
-                                                            ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text:
-                                                                    'AUD 0.00',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        size.width *
-                                                                            0.035,
-                                                                    color: Colors
-                                                                        .black),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                            height: 3),
-                                                        RichText(
-                                                          text: TextSpan(
-                                                            text:
-                                                                'Total Fees: ',
-                                                            style: TextStyle(
-                                                              fontSize:
-                                                                  size.width *
-                                                                      0.035,
-                                                              color: Colors
-                                                                  .black54,
-                                                            ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text:
-                                                                    'AUD 0.00',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        size.width *
-                                                                            0.035,
-                                                                    color: Colors
-                                                                        .black),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                } else if (snapshot.hasError) {
-                                                  return Text(
-                                                    "Error: " +
-                                                        "${snapshot.error}",
-                                                    style: const TextStyle(
-                                                        color: Colors.white70),
-                                                  );
-                                                }
-                                                return const SizedBox(
-                                                  width: 60,
-                                                  height: 60,
-                                                  child: spinkit,
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 20),
-                                      child: GestureDetector(
-                                          onTap: () async {
-                                            if (amountController.text.isEmpty) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                const SnackBar(
-                                                  content: Text(
-                                                      "please enter amount "),
-                                                ),
-                                              );
-                                            } else {
-                                              isloading = true;
-                                              setState(() {});
-                                              print('Old Balance : ' +
-                                                  '$balance');
-                                              String response =
-                                                  await postTransfer(
-                                                      state.account.bankName,
-                                                      state.account
-                                                          .identification,
-                                                      amountController.text,
-                                                      'Top-up: ' +
-                                                          amountController
-                                                              .text);
-                                              balance += finalAmount;
-                                              print('Balance: ' + '$balance');
-                                              state.account.balance = balance;
-                                              mainAccount.balance -=
-                                                  double.parse(
-                                                      amountController.text);
-                                              print('NAB balance :' +
-                                                  mainAccount.balance
-                                                      .toStringAsFixed(2));
-                                              isloading = false;
-                                              setState(() {});
-                                              showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context1) {
-                                                    return alert(
-                                                      context,
-                                                      response,
-                                                      mainAccount,
-                                                      state.account,
-                                                      state.index,
-                                                      size,
-                                                    );
-                                                  });
-                                              debugPrint(
-                                                  "goto card detail page");
-                                            }
-                                          },
+                                        Positioned(
+                                          left: size.width * 0.094,
+                                          top: size.width * 0.031,
                                           child: Container(
-                                            width: size.width,
-                                            height: 45,
-                                            alignment: Alignment.center,
+                                            height: 7,
+                                            width: 7,
                                             decoration: BoxDecoration(
-                                              color: AppColours.buttoncolor,
                                               borderRadius:
-                                                  BorderRadius.circular(6),
+                                              BorderRadius.circular(40),
+                                              color: Colors.grey.withOpacity(0.8),
                                             ),
-                                            child: AppText(
-                                              text: 'Top Up',
-                                              colour: Colors.white,
-                                              size: 20,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(left: size.width * 0.1),
+                                          padding: EdgeInsets.symmetric(vertical: size.height * 0.008),
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              left: BorderSide(
+                                                width: 2, color: Colors.grey.withOpacity(0.4),
+                                              ),
                                             ),
-                                          )),
-                                    )
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: size.width * 0.07,
+                                              ),
+                                              AppText(
+                                                text: 'Fees: ',
+                                                size: size.width * 0.038,
+                                                colour: Colors.black87.withOpacity(0.5),
+                                              ),
+                                              AppText(
+                                                text: "AUD 0.00",
+                                                size: size.width * 0.041,
+                                                colour: Colors.black87.withOpacity(0.7),
+                                                weight: FontWeight.w400,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: size.width * 0.094,
+                                          top: size.width * 0.031,
+                                          child: Container(
+                                            height: 7,
+                                            width: 7,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(40),
+                                              color: Colors.grey.withOpacity(0.8),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(left: size.width * 0.1),
+                                          padding: EdgeInsets.symmetric(vertical: size.height * 0.008),
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              left: BorderSide(
+                                                width: 2, color: Colors.grey.withOpacity(0.4),
+                                              ),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                width: size.width * 0.07,
+                                              ),
+                                              AppText(
+                                                text: 'Total Fees: ',
+                                                size: size.width * 0.038,
+                                                colour: Colors.black54.withOpacity(0.5),
+                                              ),
+                                              AppText(
+                                                text: "AUD 0.00",
+                                                size: size.width * 0.041,
+                                                colour: Colors.black87.withOpacity(0.7),
+                                                weight: FontWeight.w400,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: size.width * 0.094,
+                                          top: size.width * 0.031,
+                                          child: Container(
+                                            height: 7,
+                                            width: 7,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(40),
+                                              color: Colors.grey.withOpacity(0.8),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(left: size.width * 0.1),
+                                          padding: EdgeInsets.only(bottom: size.height * 0.01),
+                                          decoration: BoxDecoration(
+                                            border: Border(
+                                              left: BorderSide(
+                                                width: 2, color: Colors.grey.withOpacity(0.4),
+                                              ),
+                                            ),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                height: 1,
+                                                width: size.width * 0.6,
+                                                color: Colors.grey.withOpacity(0.6),
+                                                margin: EdgeInsets.only(
+                                                    left: size.width * 0.05),
+                                              ),
+                                              SizedBox(height: size.height * 0.009,),
+                                              Row(
+                                                children: [
+                                                  SizedBox(
+                                                    width: size.width * 0.07,
+                                                  ),
+                                                  AppText(
+                                                    text: 'Your Balance: ',
+                                                    size: size.width * 0.04,
+                                                    colour: Colors.black54,
+                                                  ),
+                                                  AppText(
+                                                    text: getCurrencyAmount(
+                                                        context,
+                                                        state.account.currency,
+                                                        state.account.balance),
+                                                    size: size.width * 0.045,
+                                                    colour: AppColours.buttoncolor.withOpacity(0.9),
+                                                    weight: FontWeight.w600,
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Positioned(
+                                          left: size.width * 0.094,
+                                          top: size.width * 0.034,
+                                          child: Container(
+                                            height: 7,
+                                            width: 7,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(40),
+                                              color: Colors.grey.withOpacity(0.8),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              ]),
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            ),
-          ],
-        ),
+                              ],
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text(
+                              "Error: " + "${snapshot.error}",
+                              style: const TextStyle(
+                                  color: Colors.white70),
+                            );
+                          }
+                          return Container(
+                            height: size.height * 0.185,
+                            width: size.width,
+                            alignment: Alignment.center,
+                            child: const SizedBox(
+                              width: 60,
+                              height: 60,
+                              child: spinkit,
+                            ),
+                          );
+                        }),
+                    Container(
+                      width: size.width,
+                      height: size.height * 0.075,
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border:
+                            Border.all(width: 1, color: Colors.black54.withOpacity(0.4)),
+                        color: Colors.white,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 12),
+                            child: Column(
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Recipient gets exactly:",
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black54),
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.002,
+                                ),
+                                Container(
+                                  padding:
+                                      EdgeInsets.only(bottom: size.width * 0.008),
+                                  width: size.width * 0.45,
+                                  height: size.height * 0.045,
+                                  child: TextField(
+                                    enabled: false,
+                                    controller: resController,
+                                    keyboardType: TextInputType.number,
+                                    style: TextStyle(
+                                        fontSize: size.width * 0.045,
+                                        color: Colors.black),
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: '0.00',
+                                        hintStyle: TextStyle(
+                                            fontSize: size.width * 0.042,
+                                            color: Colors.black87.withOpacity(0.8)),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: size.width * 0.32,
+                            height: size.height * 0.075,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 8),
+                            decoration: BoxDecoration(
+                              color: AppColours.buttoncolor,
+                              image: DecorationImage(
+                                image: AssetImage(
+                                  (account.bankName == "NAB")
+                                      ? "assets/images/nab.png"
+                                      : (account.bankName ==
+                                      "NatWest")
+                                      ? "assets/images/netwest.png"
+                                      : (account.bankName ==
+                                      "CIBC")
+                                      ? "assets/images/cibc.png"
+                                      : "assets/images/itau.png",
+                                ),
+                                fit: BoxFit.fill,
+                              ),
+                              borderRadius: const BorderRadius.horizontal(
+                                right: Radius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.05),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: InkWell(
+                        onTap: () {
+                          if (amountController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("please enter amount "),
+                              ),
+                            );
+                          } else {
+                            BlocProvider.of<AppCubit>(context).goToConfirm(
+                                mainAccount,
+                                account,
+                                index,
+                                amountController.text,
+                                resController.text);
+                          }
+                        },
+                        child: Container(
+                          height: size.height * 0.055,
+                          width: size.width,
+                          decoration: BoxDecoration(
+                            color: AppColours.buttoncolor,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
+                          alignment: Alignment.center,
+                          child: const Text(
+                            "Top Up",
+                            style: TextStyle(
+                                fontSize: 20, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]),
+            );
+          } else {
+            return Container();
+          }
+        },
       ),
     );
   }
