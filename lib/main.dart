@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:tensopay_wallet_prototype/cubit/app_cubit_logics.dart';
@@ -18,6 +19,10 @@ import 'dart:math' as math;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.portraitUp,
+  ]);
 
   await Hive.initFlutter();
   //await Hive.deleteBoxFromDisk(tenso_db_box);

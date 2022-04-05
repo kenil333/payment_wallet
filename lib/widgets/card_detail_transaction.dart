@@ -33,20 +33,6 @@ class CardDetails extends StatelessWidget {
       children: [
         //Balance details
         Container(
-          // height: size.width * 0.23,
-          // width: size.width * 0.9,
-          // decoration: BoxDecoration(
-          //   borderRadius: BorderRadius.circular(10),
-          //   color: Colors.white,
-          //   boxShadow: [
-          //     BoxShadow(
-          //       offset: const Offset(0,2),
-          //       color: Colors.grey.shade300,
-          //       blurRadius: 3,
-          //       spreadRadius: 2
-          //     ),
-          //   ]
-          // ),
           child: Stack(
             alignment: Alignment.center,
             children: [

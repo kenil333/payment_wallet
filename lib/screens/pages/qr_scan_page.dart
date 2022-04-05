@@ -103,12 +103,12 @@ class _QrScanState extends State<QrScan> {
         Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).padding.top + 10,
+              height: MediaQuery.of(context).padding.top + 5,
             ),
             Align(
               alignment: Alignment.topLeft,
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: size.width * 0.05),
                 decoration: boxDecorationWithRoundedCorners(
                   backgroundColor: Colors.transparent,
@@ -120,8 +120,8 @@ class _QrScanState extends State<QrScan> {
                 BlocProvider.of<AppCubit>(context).goToMainPage(0);
               }),
             ),
-            30.height,
-            Text('Hold  your Card inside the frame',
+            20.height,
+            Text('Hold your QR code inside the frame',
                 style: boldTextStyle(color: Colors.white, size: 18)),
           ],
         ),

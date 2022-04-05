@@ -34,7 +34,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return Container(child: BlocBuilder<AppCubit, CubitState>(
+    return BlocBuilder<AppCubit, CubitState>(
       builder: (context, state) {
         if (state is ConfirmPaymentState) {
           TensoAccount mainAccount = state.mainAccount;
@@ -68,162 +68,436 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                       ),
                     ),
                   ),
-                  // Container(
-                  //   padding: const EdgeInsets.all(8),
-                  //   margin: const EdgeInsets.all(8),
-                  //   decoration: boxDecorationWithRoundedCorners(
-                  //     backgroundColor: Colors.transparent,
-                  //     borderRadius: BorderRadius.circular(8),
-                  //     border: Border.all(color: Colors.white60),
-                  //   ),
-                  //   child:
-                  //       const Icon(Icons.arrow_back, color: Colors.white),
-                  // ).onTap(() {
-                  //   BlocProvider.of<AppCubit>(context).goToMainPage(0);
-                  // }).paddingOnly(top: 25, right: 16),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 Container(
-                  height: size.height * 0.53,
-                  width: size.width * 0.9,
-                  padding: const EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xff50B2FA),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
                   ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
-                    ),
-                    margin: const EdgeInsets.all(2),
-                    // height: size.height * 0.53,
-                    width: size.width * 0.9,
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppLargeText(
-                            text: 'Payment Confirmation', size: 21, colour: Colors.black87.withOpacity(0.7), weight: FontWeight.w600),
-                        const SizedBox(height: 12),
-                        AppText(
-                            text: 'You have ' +
-                                getCurrencyAmount(
-                                    context,
-                                    mainAccount.currency,
-                                    mainAccount.balance),
-                            colour: Colors.black,
-                            size: 17),
-                        const SizedBox(height: 8),
-                        AppText(
-                            text: 'Paying ' + payment.nickName, size: 15),
-                        const SizedBox(height: 8),
-                        AppText(
-                          text: 'Amount : ' +
+                  width: size.width,
+                  padding: EdgeInsets.all(size.width * 0.05),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppLargeText(
+                          text: 'Payment Confirmation', size: 21, colour: Colors.black87.withOpacity(0.7), weight: FontWeight.w600),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      Container(
+                        // height: size.height * 0.05,
+                        width: size.width,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 12),
+                        // margin: const EdgeInsets.symmetric(horizontal: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              width: 1, color: Colors.black87.withOpacity(0.4)),
+                          color: Colors.white,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Amount You Pay: ",
+                              style: TextStyle(
+                                  fontSize: size.width * 0.038,
+                                  color: Colors.black87.withOpacity(0.6)),
+                            ),
+                            SizedBox(
+                              width: size.width * 0.01,
+                            ),
+                            Text(
                               getCurrencyAmount(context, payment.currency,
                                   payment.amount),
-                          size: 15.5,
-                          colour: Colors.black87,
+                              style: TextStyle(
+                                  fontSize: size.width * 0.043,
+                                  color:
+                                  AppColours.buttoncolor.withOpacity(0.9),
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 8),
-                        StreamBuilder<RateData>(
-                            stream: generateRateStream(payment.currency),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                Rate rateData = snapshot.data!.rate;
-                                rate = rateData.rate;
-                                finalAmount = payment.amount / rate;
-                                resController.value = TextEditingValue(
-                                    text: getCurrencyAmount(context,
-                                        mainAccount.currency, finalAmount));
-                                return Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    AppText(
-                                        text: 'Exchange rate :',
-                                        colour: Colors.black87,
-                                        size: 15),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
-                                    AppText(
-                                      text: mainAccount.currency +
-                                          getCurrencyAmount(context,
-                                              mainAccount.currency, 1.00) +
-                                          ' is ' +
-                                          getCurrencyAmount(
-                                              context,
-                                              payment.currency,
-                                              rateData.rate),
-                                      size: 14,
-                                    ),
-                                    AppText(
-                                      text: 'Fees: AUD 0.00',
-                                      size: 14,
-                                    ),
-                                    AppText(
-                                      text: 'Total fees: AUD 0.00 ',
-                                      size: 14,
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        AppText(
-                                          text: 'Final Amount ' +
-                                              getCurrency(context,
-                                                  mainAccount.currency),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10),
-                                            child: TextField(
-                                              controller: resController,
-                                              decoration: InputDecoration(
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10),
-                                                ),
-                                                hintText: '0.00',
-                                                labelStyle: TextStyle(
-                                                  fontSize: 16.0,
-                                                  color: Colors.black54
-                                                      .withOpacity(0.8),
+                      ),
+                      StreamBuilder<RateData>(
+                          stream: generateRateStream(payment.currency),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              Rate rateData = snapshot.data!.rate;
+                              rate = rateData.rate;
+                              finalAmount = payment.amount / rate;
+                              resController.value = TextEditingValue(
+                                  text: getCurrencyAmount(context,
+                                      mainAccount.currency, finalAmount));
+                              return Stack(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                left: size.width * 0.05),
+                                            padding: EdgeInsets.only(
+                                                top: size.height * 0.01),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                left: BorderSide(
+                                                  width: 2,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.4),
                                                 ),
                                               ),
                                             ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: size.width * 0.1,
+                                                    ),
+                                                    AppText(
+                                                      text: 'Available fund: ',
+                                                      size: size.width * 0.04,
+                                                      colour: Colors.black54,
+                                                    ),
+                                                    AppText(
+                                                      text: getCurrencyAmount(
+                                                          context,
+                                                          mainAccount.currency,
+                                                          mainAccount.balance),
+                                                      size: size.width * 0.045,
+                                                      colour: AppColours
+                                                          .buttoncolor
+                                                          .withOpacity(0.9),
+                                                      weight: FontWeight.w600,
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: size.height * 0.009,
+                                                ),
+                                                Container(
+                                                  height: 1,
+                                                  width: size.width * 0.6,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.6),
+                                                  margin: EdgeInsets.only(
+                                                      left: size.width * 0.05),
+                                                ),
+                                              ],
+                                            ),
                                           ),
+                                          Positioned(
+                                            left: size.width * 0.094,
+                                            top: size.width * 0.034,
+                                            child: Container(
+                                              height: 7,
+                                              width: 7,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(40),
+                                                color: Colors.grey
+                                                    .withOpacity(0.8),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                left: size.width * 0.05),
+                                            padding: EdgeInsets.only(
+                                                top: size.height * 0.01),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                left: BorderSide(
+                                                  width: 2,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.4),
+                                                ),
+                                              ),
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: size.width * 0.1,
+                                                    ),
+                                                    AppText(
+                                                      text: 'Paying: ',
+                                                      size: size.width * 0.04,
+                                                      colour: Colors.black54,
+                                                    ),
+                                                    AppText(
+                                                      text: payment.nickName,
+                                                      size: size.width * 0.04,
+                                                      colour: Colors.black87
+                                                          .withOpacity(0.7),
+                                                      weight: FontWeight.w400,
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  height: size.height * 0.009,
+                                                ),
+                                                Container(
+                                                  height: 1,
+                                                  width: size.width * 0.6,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.6),
+                                                  margin: EdgeInsets.only(
+                                                      left: size.width * 0.05),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Positioned(
+                                            left: size.width * 0.094,
+                                            top: size.width * 0.034,
+                                            child: Container(
+                                              height: 7,
+                                              width: 7,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(40),
+                                                color: Colors.grey
+                                                    .withOpacity(0.8),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                left: size.width * 0.05),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: size.height * 0.008),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                left: BorderSide(
+                                                  width: 2,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.4),
+                                                ),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: size.width * 0.1,
+                                                ),
+                                                AppText(
+                                                  text: 'Exchange rate: ',
+                                                  size: size.width * 0.038,
+                                                  colour: Colors.black87
+                                                      .withOpacity(0.4),
+                                                ),
+                                                AppText(
+                                                  text: getCurrencyAmount(context,
+                                                      mainAccount.currency, 1.00) +
+                                                      ' is ' +
+                                                      getCurrencyAmount(
+                                                          context,
+                                                          payment.currency,
+                                                          rateData.rate),
+                                                  size: size.width * 0.041,
+                                                  colour: Colors.black87
+                                                      .withOpacity(0.7),
+                                                  weight: FontWeight.w400,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Positioned(
+                                            left: size.width * 0.094,
+                                            top: size.width * 0.031,
+                                            child: Container(
+                                              height: 7,
+                                              width: 7,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(40),
+                                                color: Colors.grey
+                                                    .withOpacity(0.8),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                left: size.width * 0.05),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: size.height * 0.008),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                left: BorderSide(
+                                                  width: 2,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.4),
+                                                ),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: size.width * 0.1,
+                                                ),
+                                                AppText(
+                                                  text: 'Fees: ',
+                                                  size: size.width * 0.038,
+                                                  colour: Colors.black87
+                                                      .withOpacity(0.5),
+                                                ),
+                                                AppText(
+                                                  text: "AUD 0.00",
+                                                  size: size.width * 0.041,
+                                                  colour: Colors.black87
+                                                      .withOpacity(0.7),
+                                                  weight: FontWeight.w400,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Positioned(
+                                            left: size.width * 0.094,
+                                            top: size.width * 0.031,
+                                            child: Container(
+                                              height: 7,
+                                              width: 7,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(40),
+                                                color: Colors.grey
+                                                    .withOpacity(0.8),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Stack(
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(
+                                                left: size.width * 0.05),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: size.height * 0.01),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                left: BorderSide(
+                                                  width: 2,
+                                                  color: Colors.grey
+                                                      .withOpacity(0.4),
+                                                ),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: size.width * 0.1,
+                                                ),
+                                                AppText(
+                                                  text: 'Total Fees: ',
+                                                  size: size.width * 0.038,
+                                                  colour: Colors.black54
+                                                      .withOpacity(0.5),
+                                                ),
+                                                AppText(
+                                                  text: "AUD 0.00",
+                                                  size: size.width * 0.041,
+                                                  colour: Colors.black87
+                                                      .withOpacity(0.7),
+                                                  weight: FontWeight.w400,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Positioned(
+                                            left: size.width * 0.094,
+                                            top: size.width * 0.031,
+                                            child: Container(
+                                              height: 7,
+                                              width: 7,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(40),
+                                                color: Colors.grey
+                                                    .withOpacity(0.8),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        width: size.width,
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8, horizontal: 12),
+                                        // margin: const EdgeInsets.symmetric(horizontal: 20),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                              width: 1, color: Colors.black54.withOpacity(0.4)),
+                                          color: Colors.white,
                                         ),
-                                        const SizedBox(
-                                          width: 20,
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              } else {
-                                return const Center(
-                                  child: SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator()),
-                                );
-                              }
-                            }),
-                      ],
-                    ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Final Amount: ",
+                                              style: TextStyle(
+                                                  fontSize: size.width * 0.038,
+                                                  color: Colors.black87.withOpacity(0.6)),
+                                            ),
+                                            SizedBox(
+                                              width: size.width * 0.01,
+                                            ),
+                                            Text(
+                                              resController.text,
+                                              style: TextStyle(
+                                                  fontSize: size.width * 0.043,
+                                                  color:
+                                                  AppColours.buttoncolor.withOpacity(0.9),
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return const Center(
+                                child: SizedBox(
+                                    width: 30,
+                                    height: 30,
+                                    child: spinkit,
+                                ),
+                              );
+                            }
+                          }),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 10),
-                InkWell(
+                GestureDetector(
                   onTap: () {
                     showDialog(
                       context: context,
@@ -241,12 +515,12 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                               },
                               child: const Text("Done"),
                             ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("Cancel"),
-                            ),
+                            // TextButton(
+                            //   onPressed: () {
+                            //     Navigator.pop(context);
+                            //   },
+                            //   child: const Text("Cancel"),
+                            // ),
                           ],
                           title: AppLargeText(
                             text: 'Payment Summary',
@@ -371,7 +645,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
           return Container();
         }
       },
-    ));
+    );
   }
 
   Stream<RateData> generateRateStream(String currency) async* {
