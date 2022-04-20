@@ -100,7 +100,7 @@ class _TopUpPageState extends State<TopUpPage> {
                               ),
                             ),
                           ),
-                          AppText(text: 'Top Up', colour: Colors.black)
+                          AppText(text: 'Add Funds', colour: Colors.black)
                         ],
                       ),
                     ),
@@ -611,7 +611,7 @@ class _TopUpPageState extends State<TopUpPage> {
                               vertical: 10, horizontal: 20),
                           alignment: Alignment.center,
                           child: const Text(
-                            "Top Up",
+                            "Add Funds",
                             style: TextStyle(
                                 fontSize: 20, color: Colors.white),
                           ),

@@ -18,6 +18,7 @@ import 'package:tensopay_wallet_prototype/screens/pages/verification_page.dart';
 import 'package:tensopay_wallet_prototype/screens/profile_screen.dart';
 import 'package:tensopay_wallet_prototype/screens/splash_screen.dart';
 
+import '../screens/pages/envoicescreen.dart';
 import 'app_cubit_states.dart';
 import 'app_cubits.dart';
 
@@ -86,7 +87,9 @@ class _AppCubitLogicsState extends State<AppCubitLogics> {
               return ConfirmPaymentPage();
             } if(state is ScanQRState){
               return QrScan();
-            } else{
+            } if(state is EnvoiceState){
+              return Envoice();
+            } else {
               return Container();
             }
           },

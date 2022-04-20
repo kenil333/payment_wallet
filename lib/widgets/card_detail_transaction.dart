@@ -32,69 +32,64 @@ class CardDetails extends StatelessWidget {
     return Column(
       children: [
         //Balance details
-        Container(
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Container(
-                // height: size.width * 0.23,
-                width: size.width * 0.9,
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-                margin: const EdgeInsets.only(bottom: 22.5),
-                decoration: BoxDecoration(
-                  color: AppColours.buttoncolor,
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(width: 1, color: AppColours.buttoncolor,),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AppText(text: 'Available to Spend:', colour: Colors.white, size: 17),
-                    const SizedBox(height: 7),
-                    //AppText(text: tensoAccount!.currency + ' '+ tensoAccount!.balance.toStringAsFixed(2),colour: Colors.white)
-                    AppText(
-                        text: getCurrencyAmount(context, tensoAccount!.currency,
-                            tensoAccount!.balance),
-                        colour: Colors.white,
-                      weight: FontWeight.w700,
-                      size: 18,
-                    ),
-                    const SizedBox(height: 18),
-                  ],
-                ),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              // height: size.width * 0.23,
+              width: size.width * 0.9,
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+              margin: const EdgeInsets.only(bottom: 22.5),
+              decoration: BoxDecoration(
+                color: AppColours.buttoncolor,
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(width: 1, color: AppColours.buttoncolor,),
               ),
-              Positioned(
-                bottom: 0,
-                left: size.width * 0.4,
-                child: tensoAccount!.bankName == 'NatWest' ||
-                      tensoAccount!.bankName == 'ITAU'
-                  ? Container(
-                      margin: EdgeInsets.only(right: size.width * 0.05),
-                      child: InkWell(
-                        onTap: () {
-                          BlocProvider.of<AppCubit>(context)
-                              .goToTopUp(mainAccount!, tensoAccount!, index);
-                        },
-                        child: Container(
-                          height: 45,
-                          width: 45,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(40),
-                            border: Border.all(color: AppColours.buttoncolor, width: 1),
-                          ),
-                          child: const Icon(
-                            Icons.add,
-                            color: AppColours.buttoncolor,
-                          ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AppText(text: 'Available to Spend:', colour: Colors.white, size: 17),
+                  const SizedBox(height: 7),
+                  //AppText(text: tensoAccount!.currency + ' '+ tensoAccount!.balance.toStringAsFixed(2),colour: Colors.white)
+                  AppText(
+                      text: getCurrencyAmount(context, tensoAccount!.currency,
+                          tensoAccount!.balance),
+                      colour: Colors.white,
+                    weight: FontWeight.w700,
+                    size: 18,
+                  ),
+                  const SizedBox(height: 18),
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: size.width * 0.33,
+              child: tensoAccount!.bankName == 'NatWest' ||
+                    tensoAccount!.bankName == 'ITAU'
+                ? Container(
+                    margin: EdgeInsets.only(right: size.width * 0.05),
+                    child: InkWell(
+                      onTap: () {
+                        BlocProvider.of<AppCubit>(context)
+                            .goToTopUp(mainAccount!, tensoAccount!, index);
+                      },
+                      child: Container(
+                        height: 45,
+                        width: 100,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: AppColours.buttoncolor, width: 1),
                         ),
+                        child: AppText(text: 'Add Funds', colour: AppColours.buttoncolor, size: 15),
                       ),
-                    )
-                  : Container(),
-              ),
-            ],
-          ),
+                    ),
+                  )
+                : Container(),
+            ),
+          ],
         ),
         const SizedBox(height: 20),
         //Recent Activity
@@ -115,7 +110,7 @@ class CardDetails extends StatelessWidget {
         //Transactions list
         Container(
           width: double.maxFinite,
-          height: size.height * 0.535,
+          height: size.height * 0.5,
           margin: const EdgeInsets.only(bottom: 10),
           color: Colors.white,
           child: SingleChildScrollView(
@@ -128,7 +123,22 @@ class CardDetails extends StatelessWidget {
               }).toList(),
             ).paddingAll(20),
           ),
-        )
+        ),
+        GestureDetector(
+          onTap: () {
+            BlocProvider.of<AppCubit>(context).goToScanQr();
+          },
+          child: Container(
+            height: size.height * 0.062,
+            width: size.width * 0.13,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(40),
+              color: AppColours.buttoncolor,
+            ),
+            child: AppText(text: "Pay", colour: Colors.white, size: 16,),
+          ),
+        ),
       ],
     );
   }

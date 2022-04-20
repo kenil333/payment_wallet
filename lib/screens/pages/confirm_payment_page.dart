@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:tensopay_wallet_prototype/data/spinkit/spinkit.dart';
+import 'package:tensopay_wallet_prototype/data/stream/boolstream.dart';
 import 'package:tensopay_wallet_prototype/main.dart';
 import 'package:tensopay_wallet_prototype/models/tenso_payment_data.dart';
 import 'package:tensopay_wallet_prototype/utils/api_helper.dart';
@@ -30,6 +29,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
   double rate = 0;
   double finalAmount = 0;
   final TextEditingController resController = TextEditingController();
+  final bs = BoolStream();
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +74,8 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
                   ),
                   width: size.width,
                   padding: EdgeInsets.all(size.width * 0.05),
@@ -83,7 +83,10 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppLargeText(
-                          text: 'Payment Confirmation', size: 21, colour: Colors.black87.withOpacity(0.7), weight: FontWeight.w600),
+                          text: 'Payment Confirmation',
+                          size: 21,
+                          colour: Colors.black87.withOpacity(0.7),
+                          weight: FontWeight.w600),
                       SizedBox(
                         height: size.height * 0.03,
                       ),
@@ -112,12 +115,12 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                               width: size.width * 0.01,
                             ),
                             Text(
-                              getCurrencyAmount(context, payment.currency,
-                                  payment.amount),
+                              getCurrencyAmount(
+                                  context, payment.currency, payment.amount),
                               style: TextStyle(
                                   fontSize: size.width * 0.043,
                                   color:
-                                  AppColours.buttoncolor.withOpacity(0.9),
+                                      AppColours.buttoncolor.withOpacity(0.9),
                                   fontWeight: FontWeight.w600),
                             ),
                           ],
@@ -137,7 +140,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                 children: [
                                   Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Stack(
                                         children: [
@@ -157,7 +160,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                             ),
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Row(
                                                   children: [
@@ -204,7 +207,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                               width: 7,
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(40),
+                                                    BorderRadius.circular(40),
                                                 color: Colors.grey
                                                     .withOpacity(0.8),
                                               ),
@@ -230,7 +233,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                             ),
                                             child: Column(
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Row(
                                                   children: [
@@ -273,7 +276,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                               width: 7,
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(40),
+                                                    BorderRadius.circular(40),
                                                 color: Colors.grey
                                                     .withOpacity(0.8),
                                               ),
@@ -309,8 +312,10 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                                       .withOpacity(0.4),
                                                 ),
                                                 AppText(
-                                                  text: getCurrencyAmount(context,
-                                                      mainAccount.currency, 1.00) +
+                                                  text: getCurrencyAmount(
+                                                          context,
+                                                          mainAccount.currency,
+                                                          1.00) +
                                                       ' is ' +
                                                       getCurrencyAmount(
                                                           context,
@@ -332,7 +337,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                               width: 7,
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(40),
+                                                    BorderRadius.circular(40),
                                                 color: Colors.grey
                                                     .withOpacity(0.8),
                                               ),
@@ -385,7 +390,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                               width: 7,
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(40),
+                                                    BorderRadius.circular(40),
                                                 color: Colors.grey
                                                     .withOpacity(0.8),
                                               ),
@@ -438,7 +443,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                               width: 7,
                                               decoration: BoxDecoration(
                                                 borderRadius:
-                                                BorderRadius.circular(40),
+                                                    BorderRadius.circular(40),
                                                 color: Colors.grey
                                                     .withOpacity(0.8),
                                               ),
@@ -452,19 +457,24 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                             vertical: 8, horizontal: 12),
                                         // margin: const EdgeInsets.symmetric(horizontal: 20),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                           border: Border.all(
-                                              width: 1, color: Colors.black54.withOpacity(0.4)),
+                                              width: 1,
+                                              color: Colors.black54
+                                                  .withOpacity(0.4)),
                                           color: Colors.white,
                                         ),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
                                           children: [
                                             Text(
                                               "Final Amount: ",
                                               style: TextStyle(
                                                   fontSize: size.width * 0.038,
-                                                  color: Colors.black87.withOpacity(0.6)),
+                                                  color: Colors.black87
+                                                      .withOpacity(0.6)),
                                             ),
                                             SizedBox(
                                               width: size.width * 0.01,
@@ -473,8 +483,8 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                               resController.text,
                                               style: TextStyle(
                                                   fontSize: size.width * 0.043,
-                                                  color:
-                                                  AppColours.buttoncolor.withOpacity(0.9),
+                                                  color: AppColours.buttoncolor
+                                                      .withOpacity(0.9),
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           ],
@@ -487,9 +497,9 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                             } else {
                               return const Center(
                                 child: SizedBox(
-                                    width: 30,
-                                    height: 30,
-                                    child: spinkit,
+                                  width: 30,
+                                  height: 30,
+                                  child: spinkit,
                                 ),
                               );
                             }
@@ -501,26 +511,24 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) {
+                      builder: (BuildContext cont) {
                         return AlertDialog(
                           scrollable: true,
                           backgroundColor: const Color(0xFFEBF4F8),
                           actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                BlocProvider.of<AppCubit>(context)
-                                    .goToCardDetailPage(
-                                        mainAccount, mainAccount, 0);
-                              },
-                              child: const Text("Done"),
-                            ),
-                            // TextButton(
-                            //   onPressed: () {
-                            //     Navigator.pop(context);
-                            //   },
-                            //   child: const Text("Cancel"),
-                            // ),
+                               StreamBuilder<bool>(
+                                 stream: bs.boolstream,
+                                 initialData: false,
+                                 builder: (con, snapshot) {
+                                   return (snapshot.data!) ? TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          BlocProvider.of<AppCubit>(context).gotoEnvoicePage(mainAccount, payment, finalAmount);
+                                        },
+                                        child: const Text("Done"),
+                                      ) : Container();
+                                 }
+                               ),
                           ],
                           title: AppLargeText(
                             text: 'Payment Summary',
@@ -535,10 +543,10 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                             builder: (BuildContext context,
                                 AsyncSnapshot<String> snapshot) {
                               if (snapshot.hasData) {
+                                bs.boolsink.add(true);
                                 return Column(
                                   mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     AppText(
                                         text: 'Merchant name: ' +
@@ -548,10 +556,8 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                     ),
                                     AppText(
                                       text: 'Amount: ' +
-                                          getCurrencyAmount(
-                                              context,
-                                              payment.currency,
-                                              payment.amount),
+                                          getCurrencyAmount(context,
+                                              payment.currency, payment.amount),
                                       colour: Colors.black54,
                                     ),
                                     const SizedBox(
@@ -575,25 +581,10 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                     const SizedBox(
                                       height: 15,
                                     ),
-                                    // InkWell(
-                                    //   onTap: () {
-                                    //     Navigator.pop(context);
-                                    //     BlocProvider.of<AppCubit>(context)
-                                    //         .goToCardDetailPage(
-                                    //         mainAccount,
-                                    //         mainAccount,
-                                    //         0);
-                                    //   },
-                                    //   child: AppText(
-                                    //     text: 'Done',
-                                    //     colour: Colors.blue,
-                                    //   ),
-                                    // ),
                                   ],
                                 );
                               } else if (snapshot.hasError) {
-                                return Text(
-                                    "Error: " + "${snapshot.error}");
+                                return Text("Error: " + "${snapshot.error}");
                               } else {
                                 return const SizedBox(
                                   width: 60,
@@ -625,10 +616,11 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                             color: Colors.white,
                           ),
                         ),
-                        SizedBox(width: size.width * 0.05,),
+                        SizedBox(
+                          width: size.width * 0.05,
+                        ),
                         Image(
-                          image: const AssetImage(
-                              "assets/images/arrow.png"),
+                          image: const AssetImage("assets/images/arrow.png"),
                           height: size.width * 0.05,
                           width: size.width * 0.05,
                           color: Colors.white,

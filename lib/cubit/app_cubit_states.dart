@@ -42,6 +42,18 @@ class ProfileScreenState extends CubitState{
 
 }
 
+class EnvoiceState extends CubitState{
+  final TensoPayment tensoPayment;
+  final TensoAccount mainAccount;
+  final double finalamount;
+  EnvoiceState({required this.tensoPayment, required this.mainAccount, required this.finalamount}) {
+  }
+  @override
+  // TODO: implement props
+  List<Object?> get props => [tensoPayment, mainAccount, finalamount];
+
+}
+
 class CardDetailState extends CubitState{
   final TensoAccount mainAccount;
   final TensoAccount account;

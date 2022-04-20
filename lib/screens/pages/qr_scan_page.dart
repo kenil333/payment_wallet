@@ -99,7 +99,9 @@ class _QrScanState extends State<QrScan> {
     return Scaffold(
         body: Stack(
       children: [
-        _buildQrView(context),
+        Center(
+          child: _buildQrView(context),
+        ),
         Column(
           children: [
             SizedBox(
@@ -121,10 +123,15 @@ class _QrScanState extends State<QrScan> {
               }),
             ),
             20.height,
-            Text('Hold your QR code inside the frame',
-                style: boldTextStyle(color: Colors.white, size: 18)),
+            Text('Pay anyone using TensoPay',
+                style: boldTextStyle(color: Colors.white, size: 17)),
           ],
         ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Text("Scan Merchant's QR code within the frame",
+              style: boldTextStyle(color: Colors.white, size: 16)),
+        ).paddingBottom(120),
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
@@ -137,7 +144,7 @@ class _QrScanState extends State<QrScan> {
           ).onTap(() {
             BlocProvider.of<AppCubit>(context).goToMainPage(0);
           }),
-        ).paddingBottom(60),
+        ).paddingBottom(50),
       ],
     ));
   }

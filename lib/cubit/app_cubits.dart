@@ -27,6 +27,10 @@ class AppCubit extends Cubit<CubitState>{
     emit(ProfileScreenState(index: index));
   }
 
+  void gotoEnvoicePage(TensoAccount mainAccount, TensoPayment tensoPayment, double finalamount) {
+    emit(EnvoiceState(tensoPayment: tensoPayment, mainAccount: mainAccount, finalamount: finalamount));
+  }
+
   void goToCardDetailPage(TensoAccount mainAccount,TensoAccount account, int index){
     emit(CardDetailState(account: account, index: index, mainAccount: mainAccount));
   }
