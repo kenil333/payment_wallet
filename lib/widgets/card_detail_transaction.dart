@@ -64,27 +64,48 @@ class CardDetails extends StatelessWidget {
             ),
             Positioned(
               bottom: 0,
-              left: size.width * 0.33,
+              left: size.width * 0.25,
               child: tensoAccount!.bankName == 'NatWest' ||
                     tensoAccount!.bankName == 'ITAU'
                 ? Container(
                     margin: EdgeInsets.only(right: size.width * 0.05),
-                    child: InkWell(
-                      onTap: () {
-                        BlocProvider.of<AppCubit>(context)
-                            .goToTopUp(mainAccount!, tensoAccount!, index);
-                      },
-                      child: Container(
-                        height: 45,
-                        width: 100,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColours.buttoncolor, width: 1),
+                    child: Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            BlocProvider.of<AppCubit>(context)
+                                .goToTopUp(mainAccount!, tensoAccount!, index);
+                          },
+                          child: Container(
+                            height: 45,
+                            width: 100,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: AppColours.buttoncolor, width: 1),
+                            ),
+                            child: AppText(text: 'Add Funds', colour: AppColours.buttoncolor, size: 15),
+                          ),
                         ),
-                        child: AppText(text: 'Add Funds', colour: AppColours.buttoncolor, size: 15),
-                      ),
+                        const SizedBox(width: 20,),
+                        GestureDetector(
+                          onTap: () {
+                            BlocProvider.of<AppCubit>(context).goToScanQr();
+                          },
+                          child: Container(
+                            height: 45,
+                            width: size.width * 0.13,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: AppColours.appcolor, width: 1),
+                              color: Colors.white,
+                            ),
+                            child: AppText(text: "Pay", colour: AppColours.appcolor, size: 16,),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 : Container(),
@@ -122,21 +143,6 @@ class CardDetails extends StatelessWidget {
                 return TransactionComponent(transaction: transaction, size: size,);
               }).toList(),
             ).paddingAll(20),
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            BlocProvider.of<AppCubit>(context).goToScanQr();
-          },
-          child: Container(
-            height: size.height * 0.062,
-            width: size.width * 0.13,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(40),
-              color: AppColours.buttoncolor,
-            ),
-            child: AppText(text: "Pay", colour: Colors.white, size: 16,),
           ),
         ),
       ],

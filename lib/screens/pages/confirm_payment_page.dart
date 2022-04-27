@@ -510,6 +510,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                 GestureDetector(
                   onTap: () {
                     showDialog(
+                      barrierDismissible: false,
                       context: context,
                       builder: (BuildContext cont) {
                         return AlertDialog(
