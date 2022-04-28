@@ -64,7 +64,7 @@ class CardDetails extends StatelessWidget {
             ),
             Positioned(
               bottom: 0,
-              left: size.width * 0.25,
+              left: size.width * 0.16,
               child: tensoAccount!.bankName == 'NatWest' ||
                     tensoAccount!.bankName == 'ITAU'
                 ? Container(
@@ -95,14 +95,14 @@ class CardDetails extends StatelessWidget {
                           },
                           child: Container(
                             height: 45,
-                            width: size.width * 0.13,
+                            width: 100,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: AppColours.appcolor, width: 1),
+                              border: Border.all(color: AppColours.buttoncolor, width: 1),
                               color: Colors.white,
                             ),
-                            child: AppText(text: "Pay", colour: AppColours.appcolor, size: 16,),
+                            child: AppText(text: "Pay", colour: AppColours.buttoncolor, size: 16,),
                           ),
                         ),
                       ],
